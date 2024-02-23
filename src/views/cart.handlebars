@@ -1,0 +1,25 @@
+<h2>Carrito: {{cartFound._id}}</h2>
+<h3>Tus Productos:</h3>
+<table>
+    <tr>
+        <th>Producto</th>
+        <th>ID del Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+    </tr>
+    {{#each cartFound.products}}
+    <tr>
+        <th>{{this.product.title}}</th>
+        <th>{{this.product._id}}</th>
+        <th>{{this.quantity}}</th>
+        <th>{{this.product.price}}</th>
+    </tr>
+    {{/each}}
+</table>
+<button onclick="location.href = '/api/carts/{{cartFound._id}}/purchase'">Confirmar Compra</button>
+<form id="emptyCartForm">
+    <input type="hidden" name="userRole" id="userRole" value="{{userRole}}">
+    <input type="hidden" name="cartId" id="cartId" value="{{cartFound._id}}">
+    <input type="submit" value="Vaciar Carrito"></input>
+</form>
+<script src="/js/emptyCart.js"></script>

@@ -1,0 +1,210 @@
+paths:
+  api/products:
+    get:
+      summary: Get all products
+      parameters:
+        - in: query
+          name: limit
+          required: false
+          description: Indicates the amount of products to retrieve
+          schema:
+            type: number
+        - in: query
+          name: page
+          required: false
+          description: Indicates the page to retrieve
+          schema:
+            type: number
+        - in: query
+          name: query
+          required: false
+          description: Indicates the filter to use for the products. In case of not getting a filter the search will be general
+          schema:
+            type: string
+        - in: query
+          name: sort
+          required: false
+          description: Indicates the order of the products. 'asc' for ascendent order or 'desc' for descendent order
+          schema:
+            type: string
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Load all the existent products
+        '400':
+          description: Products not found
+        '500':
+          description: Server error
+    post:
+      summary: Creates a new product
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createProduct"
+      responses:
+        '200':
+          description: New product created
+        '400':
+          description: Product not created, data might be missing
+        '500':
+          description: Server error
+  api/products/{id}:
+    get:
+      summary: Get product by ID
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          description: Product identifier
+          schema:
+            $type: string
+      responses:
+        '200':
+          description: Load an specific product
+          content:
+            aplication/json:
+              schemas:
+                $ref: '#/components/schemas/Product'
+              example:
+                _id: 653d21894f7ddcd36ed43d58
+                title: Ryzen 5 3400g
+                description: Procesador APU
+                code: C01
+                price: 180000
+                status: true
+                stock: 5
+                category: Procesador
+                thumbnails: [image1.jpg, image2.bmp]
+                owner: adminCoder@coder.com
+        '400':
+          description: Product not found
+        '500':
+          description: Server error
+    put:
+      summary: Updates a product
+      parameters:
+        - name: id
+          in: path
+          description: Product identifier
+          schema:
+            $type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+      tags:
+        - Products
+      responses:
+        '200': 
+          description: Product updated
+        '400':
+          description: Product not updated, data might be missing
+        '500':
+          description: Server error
+    delete:
+      summary: Deletes a product
+      parameters:
+        - name: id
+          in: path
+          description: Product identifier
+          schema:
+            $type: string
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Product deleted
+        '400':
+          description: Product not deleted, product not found or not enough permissions
+        '500':
+          description: Server error
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        price:
+          type: number
+        status:
+          type: boolean
+        stock:
+          type: number
+        category:
+          type: string
+        thumbnails:
+          type: string
+          format: array
+        owner:
+          type: string
+      example:
+        _id: 653d21894f7ddcd36ed43d58
+        title: Ryzen 5 3400g
+        description: Procesador APU
+        code: C01
+        price: 180000
+        status: true
+        stock: 5
+        category: Procesador
+        thumbnails: [image1.jpg, image2.bmp]
+        owner: adminCoder@coder.com
+  requestBodies:
+    createProduct:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        price:
+          type: number
+        status:
+          type: boolean
+        stock:
+          type: number
+        category:
+          type: string
+        thumbnails:
+          type: string
+          format: array
+    updateProduct:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        price:
+          type: number
+        status:
+          type: boolean
+        stock:
+          type: number
+        category:
+          type: string
+        thumbnails:
+          type: string
+          format: array

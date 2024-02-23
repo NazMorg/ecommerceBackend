@@ -1,0 +1,15 @@
+<h2>Administarador de Productos</h2>
+
+<h3>Agregar Producto</h3>
+<form id="addNewProductForm">
+    Titulo: <input type="text" name="title" id="title">
+    Descripcion: <input type="text" name="description" id="description">
+    Codigo: <input type="text" name="code" id="code">
+    Precio: <input type="number" name="price" id="price">
+    Stock: <input type="number" name="stock" id="stock">
+    Categoria: <input type="text" name="category" id="category">
+    <input type="hidden" name="owner" id="owner" value="{{email}}">
+    <input type="submit" value="AÑADIR">
+</form>
+<button onclick="location.href = '/products'">Volver a Productos</button>
+<script src="/js/createProduct.js"></script>

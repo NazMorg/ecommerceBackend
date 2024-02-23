@@ -1,0 +1,195 @@
+paths:
+  api/carts:
+    get:
+      summary: Get all carts
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: Carts found
+        '400':
+          description: Carts not found
+        '500':
+          description: Server error
+    post:
+      summary: Create a new cart
+      tags:
+       - Carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createCart"
+      responses:
+        '200':
+          description: New cart created
+        '400':
+          description: Cart not created, data might be missing or not enough permissions
+        '500':
+          description: Server error
+  api/carts/{id}:
+    get:
+      summary: Finds and populate a cart by ID
+      tags:
+        - Carts
+      parameters:
+          - name: id
+            in: path
+            description: Cart identifier
+            schema:
+              $type: string
+      responses:
+        '200':
+          decription: Loads a cart and it's products by ID 
+        '400':
+          decription: Cart not found
+        '500':
+          decription: Server error
+    put:
+      summary: Adds products to a cart by ID
+      tags:
+        - Carts
+      parameters:
+          - name: id
+            in: path
+            description: Cart identifier
+            schema:
+              $type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/addToCart"
+      responses:
+        '200':
+          decription: Loads a cart and it's products by ID 
+        '400':
+          decription: Cart not found
+        '500':
+          decription: Server error
+    delete:
+      summary: Empties a cart ID
+      tags:
+        - Carts
+      parameters:
+          - name: id
+            in: path
+            description: Cart identifier
+            schema:
+              $type: string
+      responses:
+        '200':
+          decription: Deletes all products from a cart 
+        '400':
+          decription: Cart not found
+        '500':
+          decription: Server error
+  api/carts/{cid}/products/{pid}:
+    put:
+      summary: Updates quantity of a product inside the cart indicated
+      tags:
+        - Carts
+        - Products
+      parameters:
+        - name: cid
+          in: path
+          description: Cart identifier
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          description: Product identifier
+          schema:
+            $type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateQuantity"
+      responses:
+        '200':
+          description: Modifies quantity of indicated product inside the cart indicated
+        '400':
+          description: Quantity not modified
+        '500':
+          description: Server error
+    delete:
+      summary: Deletes one product from the cart indicated
+      tags:
+        - Carts
+        - Products
+      parameters:
+        - name: cid
+          in: path
+          description: Cart identifier
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          description: Product identifier
+          schema:
+            $type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/deleteProduct"
+      responses:
+        '200':
+          description: Deletes indicated product inside the cart indicated
+        '400':
+          description: Product not deleted
+        '500':
+          description: Server error
+
+
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+        products:
+          type: string
+          format: array
+        status:
+          type: string
+      example:
+        _id: 657dc5c9cca18b02d295f1a1
+        products: [ {product: 653d21894f7ddcd36ed43d58, quantity: 2}, {product: 653d219e4f7ddcd36ed43d5a, quantity: 5}]
+        status: open
+  requestBodies:
+    createCart:
+      type: object
+      properties:
+        products:
+          type: string
+          format: array
+        status:
+          type: string
+    addToCart:
+      type: object
+      properties:
+        _id:
+          type: string
+        products:
+          type: string
+          format: array
+    updateQuantity:
+      type: object
+      properties:
+        cid:
+          type: string
+        pid:
+          type: string
+        quantity:
+          type: number
+    deleteProduct:
+      type: object
+      properties:
+        cid:
+          type: string
+        pid:
+          type: string

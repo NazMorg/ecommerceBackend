@@ -1,0 +1,16 @@
+<h2>Administarador de Productos</h2>
+<input type="hidden" name="activeUser" id="activeUser" value="{{email}}">
+<h3>Actualizar Producto</h3>
+<form id="updateProductForm">
+    Id del Producto: <input type="text" name="updateProductId" id="updateProductId">
+    Titulo: <input type="text" name="updateTitle" id="updateTitle">
+    Descripcion: <input type="text" name="updateDescription" id="updateDescription">
+    Codigo: <input type="text" name="updateCode" id="updateCode">
+    Precio: <input type="number" name="updatePrice" id="updatePrice">
+    Stock: <input type="number" name="updateStock" id="updateStock">
+    Categoria: <input type="text" name="updateCategory" id="updateCategory">
+    <input type="hidden" name="owner" id="owner" value="{{email}}">
+    <input type="submit" value="ACTUALIZAR">
+</form>
+<button onclick="location.href = '/products'">Volver a Productos</button>
+<script src="/js/updateProduct.js"></script>

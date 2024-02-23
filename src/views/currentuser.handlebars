@@ -1,0 +1,12 @@
+<h2>Mi Perfil</h2>
+<p>Nombre: {{first_name}}</p>
+<p>Apellido: {{last_name}}</p>
+<p>Email: {{email}}</p>
+<p>Edad: {{age}}</p>
+<p>Rol: {{role}}</p>
+<form id="getPremiumForm">
+    <input type="hidden" name="userId" id="userId" value="{{_id}}">
+    <input type="hidden" name="userStatus" id="userStatus" value="{{isPremium}}">
+    <input type="submit" value="Volverse Premium"></input>
+</form>
+<script src="/js/getPremium.js"></script>

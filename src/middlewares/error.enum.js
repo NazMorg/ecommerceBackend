@@ -1,0 +1,18 @@
+export const errorMessages = {
+    PRODUCTS_NOT_FOUND: "Productos no encontrados",
+    PRODUCT_NOT_FOUND: "Producto no encontrado",
+    PRODUCT_NOT_CREATED: "No se pudo crear el producto",
+    PRODUCT_NOT_DELETED: "No se pudo eliminar el producto",
+    PRODUCT_NOT_ADDED: "No se pudo agregar el producto",
+    USER_NOT_FOUND: "Usuario no encontrado",
+    USER_NOT_UPDATED: "No se pudo actualizar el usuario",
+    CART_NOT_FOUND: "Carrito no encontrado",
+    CARTS_NOT_FOUND: "No se encontraron carritos",
+    CART_NOT_CREATED: "No se pudo crear el carrito",
+    CART_NOT_UPDATED: "No se pudo actualizar el carrito",
+    CART_NOT_DELETED: "No se pudo eliminar el carrito",
+    CART_NOT_CLEARED: "No se pudo vaciar el carrito",
+    QUANTITY_NOT_UPDATED: "No se pudo actualizar la cantidad del producto",
+    ALL_DATA_IS_REQUIRED: "Toda la información es requerida",
+    ACTION_DENIED: "Usted no tiene los permisos necesarios para realizar esta acción",
+} 

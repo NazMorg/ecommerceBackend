@@ -1,0 +1,15 @@
+<h2>Producto: {{_id}}</h2>
+
+<form id="addToCartForm">
+    <h3>{{title}}</h3>
+    <p>{{description}}</p>
+    <p>Precio: ${{price}}</p>
+    <p>Stock: {{stock}}</p>
+    <p>Categoria: {{category}}</p>
+    <input type="hidden" name="productId" id="productId" value="{{_id}}">
+    <input type="hidden" name="cartId" id="cartId" value="{{cartId}}">
+    Cantidad: <input type="number" name="quantity" id="quantity">
+    <input type="submit" value="Añadir al Carrito"></input>
+</form>
+<button onclick="location.href = '/products'">Volver a Productos</button>
+<script src="/js/addToCart.js"></script>
