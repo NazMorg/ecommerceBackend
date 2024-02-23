@@ -47,13 +47,15 @@ class UsersController {
             const userEmail = req.params.email;
             console.log(userEmail)
             const userFound = await usersService.findByEmail(userEmail);
+            console.log(userFound)
 
             if(!userFound) {
                 res.status(400).json({ message: errorMessages.USER_NOT_FOUND });
             }
+            const userId = userFound._id
 
             //generar token
-            const token = Jwt.sign({ userId: userFound._id, email: userFound.email }, config.jwt_secret, { expiresIn: '60m' });
+            const token = Jwt.sign({ userId: userId, email: userFound.email }, config.jwt_secret, { expiresIn: '60m' });
             if(!token) {
                 res.status(400).json({ message: "Error generando el token" });
             }

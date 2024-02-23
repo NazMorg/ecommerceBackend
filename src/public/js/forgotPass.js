@@ -20,12 +20,11 @@ async function generateRecoveryToken(email) {
                 'Content-Type': 'application/json'
 
             },
-            body: JSON.stringify(email)
         });
         if(result.status == 200) {
             alert(`Se envio un link de recuperacion a su email: ${email}`);
         } else {
-            alert("Algo salio mal...")
+            alert("Algo salio mal... ", result)
         }
     } catch (error) {
         alert(`Error: ${error}`)
