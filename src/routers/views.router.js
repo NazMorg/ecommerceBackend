@@ -15,6 +15,8 @@ router.get("/registererror", viewsController.registerErrorRender)
 
 router.get("/forgotpassword", viewsController.forgotPassRender)
 
+router.get("/changepassword/:token", viewsController.changePassRender)
+
 router.get("/products", viewsController.productsRender)
 
 router.get("/carts/:cid", viewsController.populatedCartRender)

@@ -11,4 +11,6 @@ router.put("/:uid", usersController.getPremium)
 
 router.put("/forgotpassword/:email", usersController.getResetToken)
 
+router.put("/new-password/:token", usersController.updatePass)
+
 export default router;

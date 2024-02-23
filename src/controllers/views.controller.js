@@ -80,6 +80,11 @@ class ViewsController {
     forgotPassRender = (req, res) => {
         res.render('forgotPassword');
     }
+
+    changePassRender = (req, res) => {
+        const token = req.params.token;
+        res.render('changePassword', { token });
+    }
 }
 
 export const viewsController = new ViewsController();

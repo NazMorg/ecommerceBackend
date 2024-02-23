@@ -45,18 +45,16 @@ class UsersController {
         try {
             //encontrar user
             const userEmail = req.params.email;
-            console.log(userEmail)
             const userFound = await usersService.findByEmail(userEmail);
-            console.log(userFound)
 
-            if(!userFound) {
+            if (!userFound) {
                 res.status(400).json({ message: errorMessages.USER_NOT_FOUND });
             }
             const userId = userFound._id
 
             //generar token
             const token = Jwt.sign({ userId: userId, email: userFound.email }, config.jwt_secret, { expiresIn: '60m' });
-            if(!token) {
+            if (!token) {
                 res.status(400).json({ message: "Error generando el token" });
             }
 
@@ -68,12 +66,57 @@ class UsersController {
                 res.status(400).json({ message: errorMessages.USER_NOT_UPDATED });
             }
             //generar link de recuperacion
-            const link = `http://localhost:8080/api/users/new-password/${token}`;
+            const link = `http://localhost:8080/changepassword/${token}`;
+            console.log(link)
             //enviar email con token
             res.status(200).json({ message: "Usuario Actualizado", changePassLink: link });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
+    }
+
+    updatePass = async (req, res) => {
+        //extraer token y buscar user
+        const receivedToken = req.params.token;
+        const { pass } = req.body;
+        const userFound = await usersService.findByToken(receivedToken);
+        let isUpdated = false;
+        const expiredRedirect = "http://localhost:8080/forgotpassword";
+
+        try {
+            //verificacion de token
+            Jwt.verify(receivedToken, config.jwt_secret, (err, decoded) => {
+                if (err) {
+                    //token no valido
+                    console.log("Token no valido", err);
+                    userFound.resetToken = "";
+                    userFound.save();
+                    isUpdated = true;
+                    if (isUpdated) {
+                        res.status(401).json({ message: "Su link a expirado, dirijase al siguiente link para generar uno nuevo", link: expiredRedirect });
+                    }
+                } else {
+                    //verificacion de expiracion de token
+                    const isExpired = decoded.exp < Date.now() / 1000;
+                    if (isExpired) {
+                        res.status(401).json({ message: "Su link a expirado, dirijase al siguiente link para generar uno nuevo", link: expiredRedirect });
+                    }
+                }
+            })
+            //comparar pass nueva con antigua
+            const comparation = await compareData(pass, userFound.password);
+            if(comparation) {
+                res.status(403).json({ message: "La nueva contraseña no puede ser igual a la anterior" });
+            } else {
+                userFound.password = await hashData(pass);
+                userFound.resetToken = "";
+                userFound.save();
+                res.status(200).json({ message: "Se a actualizado su contraseña" });
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+
     }
 }
 
