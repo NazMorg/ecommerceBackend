@@ -1,6 +1,7 @@
 import { usersService } from '../services/users.service.js';
 import { errorMessages } from '../middlewares/error.enum.js';
 import { hashData, compareData } from '../utils.js';
+import { transporter } from '../utils/nodemailer.js';
 import Jwt from 'jsonwebtoken';
 import config from '../config/config.js';
 
@@ -67,9 +68,17 @@ class UsersController {
             }
             //generar link de recuperacion
             const link = `http://localhost:8080/changepassword/${token}`;
-            console.log(link)
+
             //enviar email con token
-            res.status(200).json({ message: "Usuario Actualizado", changePassLink: link });
+            const mailOptions = {
+                from: "ecommerce",
+                to: userEmail,
+                subject: "Restablecimiento de Contraseña",
+                text: `Haga clic en el siguiente enlace para restablecer su contraseña: ${link}`,
+            };
+            await transporter.sendMail(mailOptions);
+
+            res.status(200).json({ message: "Email enviado" });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -105,7 +114,7 @@ class UsersController {
             })
             //comparar pass nueva con antigua
             const comparation = await compareData(pass, userFound.password);
-            if(comparation) {
+            if (comparation) {
                 res.status(403).json({ message: "La nueva contraseña no puede ser igual a la anterior" });
             } else {
                 userFound.password = await hashData(pass);
